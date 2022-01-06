@@ -1,0 +1,4 @@
+defaults:
+  - exp1:
+    - model/model_conf
+    - training/training_conf

@@ -24,12 +24,13 @@ def main(input_filepath: Path, output_filepath: Path) -> None:
 
     train_image_list = []
     train_label_list = []
-    for i in range(5):
+    num_set = 8
+    for i in range(num_set):
         img, labels = get_data(f"train_{i}.npz", input_filepath)
         train_image_list.append(img)
         train_label_list.append(labels)
-    train_images = torch.as_tensor(train_image_list).view(5 * 5000, 28, 28)
-    train_labels = torch.as_tensor(train_label_list).view(5 * 5000, -1).flatten()
+    train_images = torch.as_tensor(train_image_list).view(num_set * 5000, 28, 28)
+    train_labels = torch.as_tensor(train_label_list).view(num_set * 5000, -1).flatten()
     # TODO normalize tensor
     train = data_utils.TensorDataset(train_images, train_labels)
 

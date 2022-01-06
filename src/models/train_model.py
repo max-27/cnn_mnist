@@ -1,19 +1,24 @@
 import argparse
 import os
 from pathlib import Path
+import logging
+from omegaconf import DictConfig
 
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+import hydra
 from model import MyAwesomeModel
 from torch import nn, optim
 from torch.utils.data import DataLoader
 
 
 ROOT_PATH = Path(__file__).resolve().parents[2]
+logger = logging.getLogger(__name__)
 
 
-def train() -> None:
+@hydra.main(config_path="config", config_name="default_config.yaml")
+def train(config: DictConfig) -> None:
     """
     Saves trained CNN model
 
@@ -21,20 +26,23 @@ def train() -> None:
         :returns:
 
     """
-    parser = argparse.ArgumentParser(description="Training arguments")
-    parser.add_argument("--data-path", help="Subcommand to run")
-    args = parser.parse_args()
-    data_path = args.data_path
+    hydra.utils.to_absolute_path(os.path.join(ROOT_PATH, "models"))
+
+    # get hyperparameters
+    logger.info(f"Experiment setting: {config.experiment.items()[0][0]}")
+    cfg_exp = config.experiment.items()[0][1]
+    cfg_model = cfg_exp.model
+    cfg_train = cfg_exp.training
 
     # hyperparameter definition
     model = MyAwesomeModel()
 
-    train_set = torch.load(data_path)
+    train_set = torch.load(cfg_train.data_path)
     criterion = nn.NLLLoss()
-    lr = 0.001
+    lr = cfg_train.lr
     optimizer = optim.Adam(model.parameters(), lr=lr)
-    epochs = 5
-    batch_size = 64
+    epochs = cfg_train.epochs
+    batch_size = cfg_train.batch_size
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
 
     acc_epoch = []
@@ -56,32 +64,23 @@ def train() -> None:
             running_loss += loss.item()
             optimizer.step()
         else:
-            print(
+            logger.info(
                 f"Epoch {e + 1} --> Loss: {running_loss:.6} "
                 f"Accuracy: {np.sum(acc) / len(acc) * 100:.4}%"
             )
             acc_epoch.append(np.sum(acc) / len(acc) * 100)
             loss_epoch.append(running_loss)
 
-    i = 0
-    model_path = os.path.join(ROOT_PATH, "models")
-    while True:
-        if not os.path.isfile(
-            os.path.join(model_path, f"model_e{epochs}_b{batch_size}_lr{lr}_{i}.pth")
-        ):
-            break
-        else:
-            i += 1
-    torch.save(
-        model.state_dict(),
-        os.path.join(model_path, f"model_e{epochs}_b{batch_size}_lr{lr}_{i}.pth"),
-    )
+    torch.save(model, f"{os.getcwd()}/trained_model.pt")
+
 
     plt.figure(figsize=(15, 10))
     plt.subplot(121), plt.plot(acc_epoch), plt.xlabel("epochs"), plt.ylabel("accuracy")
     plt.subplot(122), plt.plot(loss_epoch), plt.xlabel("epochs"), plt.ylabel("loss")
+    plot_path = os.path.join(ROOT_PATH, "reports/figures/")
+    os.makedirs(plot_path, exist_ok=True)
     plt.savefig(
-        os.path.join(ROOT_PATH, f"reports/figures/model_e{epochs}_b{batch_size}_lr{lr}_{i}.png")
+        os.path.join(plot_path, f"{os.getcwd()}/learning_curves.png")
     )
     plt.show()
 

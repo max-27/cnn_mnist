@@ -1,0 +1,8 @@
+# config_name: ${hydra:job.name}
+defaults:
+  - experiment: exp0
+  - _self_
+
+hydra:
+  run:
+    dir: ../../models/runs/${now:%Y-%m-%d_%H-%M-%S}

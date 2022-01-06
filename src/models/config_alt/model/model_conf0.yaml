@@ -1,0 +1,27 @@
+image_width: 28
+image_height: 28
+
+# layer 1
+con_layer1:
+  input_channel: 1
+  output_channel: 4
+  kernel_size: 3
+  padding: 1
+  stride: 1
+max_pool1:
+  kernel_size: 2
+  stride: 2
+
+# layer 2
+con_layer2:
+  input_channel: 1
+  output_channel: 4
+  kernel_size: 3
+  padding: 1
+  stride: 1
+max_pool2:
+  kernel_stride: 2
+  stride: 2
+
+# classifier
+output_dim: 10
