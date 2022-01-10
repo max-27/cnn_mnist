@@ -29,7 +29,7 @@ config = OmegaConf.create({'experiment':
                      )
 
 os.environ['WANDB_SILENT'] = "true"
-
+os.environ['WANDB_MODE'] = 'disabled'
 
 class TestTraining(TestCase):
     @pytest.mark.skipif(not os.path.exists(data_path), reason="Data files not found")

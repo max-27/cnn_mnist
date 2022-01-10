@@ -27,16 +27,11 @@ def train(config: DictConfig) -> None:
         :parameter:
         :returns:
     """
-    if os.getcwd().split("/")[-1] == "tests":
-        mode_wandb = "disabled"
-    else:
-        mode_wandb = "online"
     wandb.init(
         project="test_project",
         entity="yeah_42",
         name=os.getcwd().split('/')[-1],
         job_type="train",
-        mode="disabled",
         force=True,
     )
     wandb.config = config
