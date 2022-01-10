@@ -15,6 +15,7 @@ from torch.utils.data import DataLoader
 
 ROOT_PATH = Path(__file__).resolve().parents[2]
 logger = logging.getLogger(__name__)
+WANDB_API_KEY = "db6e33ad7d64c58636a9d7de04aed615009c3ba9"
 
 
 @hydra.main(config_path="config", config_name="default_config.yaml")
@@ -29,6 +30,7 @@ def train(config: DictConfig) -> None:
         mode_wandb = "disabled"
     else:
         mode_wandb = "online"
+    wandb.login(key=[])
     wandb.init(
         project="test_project",
         entity="yeah_42",
