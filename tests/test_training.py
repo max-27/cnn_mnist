@@ -2,8 +2,9 @@ from unittest import TestCase
 from src.models.train_model import train
 from omegaconf import OmegaConf
 import os
+from tests import _PATH_DATA
 
-
+data_path = os.path.join(_PATH_DATA, "processed/test")
 config = OmegaConf.create({'experiment':
                           {'exp1':
                                {'model':
@@ -16,7 +17,7 @@ config = OmegaConf.create({'experiment':
                                                     'padding': 1, 'stride': 1},
                                      'max_pool2': {'kernel_stride': 2, 'stride': 2}, 'output_dim': 10},
                                 'training':
-                                    {'data_path': '/Users/max/Documents/_Uni/DTU/MLOPS/cnn_mnist/data/processed/test',
+                                    {'data_path': f'{data_path}',
                                      'lr': 0.001,
                                      'batch_size': 64,
                                      'epochs': 1
