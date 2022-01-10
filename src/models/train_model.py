@@ -35,7 +35,7 @@ def train(config: DictConfig) -> None:
         entity="yeah_42",
         name=os.getcwd().split('/')[-1],
         job_type="train",
-        mode="disabled",
+        mode=mode_wandb,
         force=True,
     )
     wandb.config = config
