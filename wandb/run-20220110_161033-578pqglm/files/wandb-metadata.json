@@ -1,0 +1,23 @@
+{
+    "os": "macOS-10.16-x86_64-i386-64bit",
+    "python": "3.9.7",
+    "heartbeatAt": "2022-01-10T15:10:35.851205",
+    "startedAt": "2022-01-10T15:10:33.307905",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "-v"
+    ],
+    "state": "running",
+    "program": "/Users/max/opt/miniconda3/envs/dtu_mlops/bin/pytest",
+    "git": {
+        "remote": "git@github.com:max-27/cnn_mnist.git",
+        "commit": "75a27493676e16df5ed3854a4b8d7302e66a05e1"
+    },
+    "email": "maximilian.frantzen@unternehmertum.de",
+    "root": "/Users/max/Documents/_Uni/DTU/MLOPS/cnn_mnist",
+    "host": "Max.local",
+    "username": "max",
+    "executable": "/Users/max/opt/miniconda3/envs/dtu_mlops/bin/python"
+}

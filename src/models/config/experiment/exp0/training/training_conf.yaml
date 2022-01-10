@@ -1,1 +1,4 @@
-data_path: "/Users/max/Documents/_Uni/DTU/MLOPS/cnn_mnist/data/processed/train"
+data_path: "data/processed/train"
+lr: 0.001
+batch_size: 64
+epochs: 5
