@@ -36,6 +36,7 @@ def train(config: DictConfig) -> None:
         name=os.getcwd().split('/')[-1],
         job_type="train",
         mode="offline",
+        force=True,
     )
     wandb.config = config
     logger.info(f"Experiment setting: {config.experiment.items()[0][0]}")
