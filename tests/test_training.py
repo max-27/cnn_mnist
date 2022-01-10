@@ -3,6 +3,7 @@ from src.models.train_model import train
 from omegaconf import OmegaConf
 import os
 from tests import _PATH_DATA
+import pytest
 
 data_path = os.path.join(_PATH_DATA, "processed/test")
 config = OmegaConf.create({'experiment':
@@ -31,6 +32,7 @@ os.environ['WANDB_SILENT'] = "true"
 
 
 class TestTraining(TestCase):
+    @pytest.mark.skipif(not os.path.exists(data_path), reason="Data files not found")
     def test_training(self):
         with self.assertLogs() as captured:
             train(config)

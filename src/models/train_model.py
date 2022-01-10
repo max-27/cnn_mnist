@@ -51,12 +51,7 @@ def train(config: DictConfig) -> None:
     a = os.path.join(_PATH_DATA, cfg_train.data_path)
     if os.path.isfile(os.path.join(_PATH_DATA, cfg_train.data_path)):
         train_set = torch.load(os.path.join(_PATH_DATA, cfg_train.data_path))
-    elif os.getcwd().split("/")[-1] == "tests":  # in case of testing use dummy dataset
-        dummy_data = torch.randint(0, 255, [1, 28, 28])
-        dummy_label = torch.Tensor([4], dtype=torch.int64, device="cpu")
-        train_set = TensorDataset(dummy_data, dummy_label)
-    else:
-        raise FileNotFoundError(f"{os.path.join(_PATH_DATA, cfg_train.data_path)} does not exist")
+
     criterion = nn.NLLLoss()
     lr = cfg_train.lr
     optimizer = optim.Adam(model.parameters(), lr=lr)
