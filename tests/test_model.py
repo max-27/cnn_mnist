@@ -1,10 +1,11 @@
-from src.models.model import MyAwesomeModel
+import os
+from pathlib import Path
+
+import pytest
 import torch
 from torch.utils.data import DataLoader
-from pathlib import Path
-import os
-import pytest
 
+from src.models.model import MyAwesomeModel
 
 ROOT_PATH = Path(__name__).resolve().parents[1]
 DATA_PATH = os.path.join(ROOT_PATH, "data/processed")

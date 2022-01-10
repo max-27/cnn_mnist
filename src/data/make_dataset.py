@@ -2,14 +2,14 @@
 import logging
 import os
 from pathlib import Path
+from typing import List
 
 import click
 import numpy as np
 import torch
 import torch.utils.data as data_utils
-from torch import Tensor
 from dotenv import find_dotenv, load_dotenv
-from typing import List
+from torch import Tensor
 
 
 @click.command()

@@ -1,12 +1,12 @@
 """https://learnopencv.com/t-sne-for-feature-visualization/"""
+import argparse
 import os
 import random
-import argparse
-import matplotlib.pyplot as plt
 
+import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from sklearn.manifold import TSNE
-import numpy as np
 
 from src.models.model import MyAwesomeModel
 

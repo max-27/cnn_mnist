@@ -1,8 +1,10 @@
-import torch
-from pathlib import Path
 import os
+from pathlib import Path
+
 import numpy as np
 import pytest
+import torch
+
 from tests import _PATH_DATA, _PROJECT_ROOT
 
 

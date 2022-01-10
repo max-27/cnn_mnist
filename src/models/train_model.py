@@ -1,18 +1,18 @@
-import wandb
+import logging
 import os
 from pathlib import Path
-import logging
 
+import hydra
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import hydra
 from omegaconf.dictconfig import DictConfig
-from src.models.model import MyAwesomeModel
 from torch import nn, optim
 from torch.utils.data import DataLoader
-from src import _PATH_DATA
 
+import wandb
+from src import _PATH_DATA
+from src.models.model import MyAwesomeModel
 
 ROOT_PATH = Path(__file__).resolve().parents[2]
 logger = logging.getLogger(__name__)

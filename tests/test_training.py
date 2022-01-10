@@ -1,9 +1,11 @@
-from unittest import TestCase
-from src.models.train_model import train
-from omegaconf import OmegaConf
 import os
-from tests import _PATH_DATA
+from unittest import TestCase
+
 import pytest
+from omegaconf import OmegaConf
+
+from src.models.train_model import train
+from tests import _PATH_DATA
 
 data_path = os.path.join(_PATH_DATA, "processed/test")
 config = OmegaConf.create({'experiment':

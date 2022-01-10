@@ -1,5 +1,6 @@
-from torch import nn, Tensor
 import math
+
+from torch import Tensor, nn
 
 
 class MyAwesomeModel(nn.Module):
