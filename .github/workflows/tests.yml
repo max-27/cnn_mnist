@@ -24,9 +24,10 @@ jobs:
     - name: Cache pip
       uses: actions/cache@v2
       with:
-        path: ${{ steps.pip-cache.outputs.dir }}
-        key: ${{ runner.os }}-py${{ matrix.python-version }}-td${{ steps.times.outputs.period }}-pip-${{ hashFiles('requirements.txt') }}-${{ hashFiles('requirements/test.txt') }}
-        restore-keys: ${{ runner.os }}-py${{ matrix.python-version }}-td${{ steps.times.outputs.period }}-pip-
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     - name: Get pip cache
       id: pip-cache
       run: |
