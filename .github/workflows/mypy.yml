@@ -27,4 +27,4 @@ jobs:
           pip install mypy
       - name: Run mypy
         run: |
-          mypy /Users/runner/work/cnn_mnist/src
+          mypy Users/runner/work/cnn_mnist/src
