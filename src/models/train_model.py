@@ -31,7 +31,6 @@ def train(config: DictConfig) -> None:
         mode_wandb = "disabled"
     else:
         mode_wandb = "online"
-    raise Exception(f"{os.getcwd().split('/')[-1]}")
     wandb.init(
         project="test_project",
         entity="yeah_42",
