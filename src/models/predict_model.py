@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from model import MyAwesomeModel
+from model import MyAwesomeModel  # type: ignore
 from torch.utils.data import DataLoader
 
 ROOT_PATH = Path(__file__).resolve().parents[2]

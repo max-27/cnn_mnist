@@ -2,7 +2,7 @@
 import argparse
 import random
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
 import torch
 # from sklearn.manifold import TSNE
