@@ -35,7 +35,7 @@ def train(config: DictConfig) -> None:
         entity="yeah_42",
         name=os.getcwd().split('/')[-1],
         job_type="train",
-        mode=mode_wandb,
+        mode="offline",
     )
     wandb.config = config
     logger.info(f"Experiment setting: {config.experiment.items()[0][0]}")
