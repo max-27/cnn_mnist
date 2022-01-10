@@ -27,7 +27,7 @@ def train(config: DictConfig) -> None:
         :returns:
     """
     if os.getcwd().split("/")[-1] == "tests":
-        mode_wandb = "disabled"
+        mode_wandb = "offline"
     else:
         mode_wandb = "online"
     wandb.login(key=[])
