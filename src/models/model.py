@@ -35,7 +35,7 @@ class MyAwesomeModel(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
 
-        cnn_image_dim = math.ceil((image_width-2)/4)
+        cnn_image_dim = math.ceil((image_width - 2) / 4)
         self.linear_layers = nn.Sequential(
             nn.Linear(int(4 * cnn_image_dim * cnn_image_dim), 10),
             nn.LogSoftmax(dim=1),
@@ -43,7 +43,6 @@ class MyAwesomeModel(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         """Performs forward pass through model"""
-        y = x
         if x.shape[1] != 1:
             raise ValueError(f"Gray scale image with one channel expected: Got {x.shape[1]} channels!")
         x = self.cnn_layers(x)

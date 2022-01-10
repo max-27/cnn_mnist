@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 import hydra
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from omegaconf.dictconfig import DictConfig
@@ -29,7 +29,7 @@ def train(config: DictConfig) -> None:
     wandb.init(
         project="test_project",
         entity="yeah_42",
-        name=os.getcwd().split('/')[-1],
+        name=os.getcwd().split("/")[-1],
         job_type="train",
         force=True,
     )
@@ -42,7 +42,6 @@ def train(config: DictConfig) -> None:
     # hyperparameter definition
     model = MyAwesomeModel()
     wandb.watch(model, log_freq=100)
-    a = os.path.join(_PATH_DATA, cfg_train.data_path)
     if os.path.isfile(os.path.join(_PATH_DATA, cfg_train.data_path)):
         train_set = torch.load(os.path.join(_PATH_DATA, cfg_train.data_path))
 
@@ -75,20 +74,10 @@ def train(config: DictConfig) -> None:
             running_loss += loss.item()
             optimizer.step()
         else:
-            logger.info(
-                f"Epoch {e + 1} --> Loss: {running_loss:.6} "
-                f"Accuracy: {np.sum(acc) / len(acc) * 100:.4}%"
-            )
-            wandb.log(
-                {"training_loss": running_loss,
-                 "training_acc": np.sum(acc) / len(acc) * 100}
-            )
-            images = wandb.Image(
-                sample_img, f"Last image in epoch {e}"
-            )
-            wandb.log(
-                {"Sample images": images}
-            )
+            logger.info(f"Epoch {e + 1} --> Loss: {running_loss:.6} " f"Accuracy: {np.sum(acc) / len(acc) * 100:.4}%")
+            wandb.log({"training_loss": running_loss, "training_acc": np.sum(acc) / len(acc) * 100})
+            images = wandb.Image(sample_img, f"Last image in epoch {e}")
+            wandb.log({"Sample images": images})
             acc_epoch.append(np.sum(acc) / len(acc) * 100)
             loss_epoch.append(running_loss)
 
