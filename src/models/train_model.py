@@ -29,13 +29,12 @@ def train(config: DictConfig) -> None:
         mode_wandb = "offline"
     else:
         mode_wandb = "online"
-    wandb.login(key=[])
     wandb.init(
         project="test_project",
         entity="yeah_42",
         name=os.getcwd().split('/')[-1],
         job_type="train",
-        mode="offline",
+        mode=mode_wandb,
         force=True,
     )
     wandb.config = config
