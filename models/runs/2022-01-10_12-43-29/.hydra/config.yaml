@@ -1,0 +1,29 @@
+experiment:
+  exp1:
+    model:
+      image_width: 28
+      image_height: 28
+      con_layer1:
+        input_channel: 1
+        output_channel: 4
+        kernel_size: 3
+        padding: 1
+        stride: 1
+      max_pool1:
+        kernel_size: 2
+        stride: 2
+      con_layer2:
+        input_channel: 1
+        output_channel: 4
+        kernel_size: 3
+        padding: 1
+        stride: 1
+      max_pool2:
+        kernel_stride: 2
+        stride: 2
+      output_dim: 10
+    training:
+      data_path: /Users/max/Documents/_Uni/DTU/MLOPS/cnn_mnist/data/processed/train
+      lr: 0.001
+      batch_size: 64
+      epochs: 5
