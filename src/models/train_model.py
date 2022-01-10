@@ -11,6 +11,7 @@ from omegaconf.dictconfig import DictConfig
 from src.models.model import MyAwesomeModel
 from torch import nn, optim
 from torch.utils.data import DataLoader
+from src import _PATH_DATA
 
 
 ROOT_PATH = Path(__file__).resolve().parents[2]
@@ -47,7 +48,7 @@ def train(config: DictConfig) -> None:
     model = MyAwesomeModel()
     wandb.watch(model, log_freq=100)
 
-    train_set = torch.load(os.path.join(ROOT_PATH, cfg_train.data_path))
+    train_set = torch.load(os.path.join(_PATH_DATA, cfg_train.data_path))
     criterion = nn.NLLLoss()
     lr = cfg_train.lr
     optimizer = optim.Adam(model.parameters(), lr=lr)
