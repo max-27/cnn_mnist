@@ -6,7 +6,6 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from torch.utils.data import TensorDataset
 import hydra
 from omegaconf.dictconfig import DictConfig
 from src.models.model import MyAwesomeModel
