@@ -35,5 +35,4 @@ class TestTraining(TestCase):
         with self.assertLogs() as captured:
             train(config)
         a = captured.records
-        self.assertEqual(captured.records[1].getMessage(), "Start training..."), "Training is not started"
         self.assertEqual(captured.records[-1].getMessage(), "Finished training and saved model!")

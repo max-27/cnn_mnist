@@ -6,6 +6,7 @@ import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
+from torch.utils.data import TensorDataset
 import hydra
 from omegaconf.dictconfig import DictConfig
 from src.models.model import MyAwesomeModel
@@ -30,12 +31,13 @@ def train(config: DictConfig) -> None:
         mode_wandb = "disabled"
     else:
         mode_wandb = "online"
+    raise Exception(f"{os.getcwd().split('/')[-1]}")
     wandb.init(
         project="test_project",
         entity="yeah_42",
         name=os.getcwd().split('/')[-1],
         job_type="train",
-        mode=mode_wandb,
+        mode="disabled",
         force=True,
     )
     wandb.config = config
@@ -47,8 +49,15 @@ def train(config: DictConfig) -> None:
     # hyperparameter definition
     model = MyAwesomeModel()
     wandb.watch(model, log_freq=100)
-
-    train_set = torch.load(os.path.join(_PATH_DATA, cfg_train.data_path))
+    a = os.path.join(_PATH_DATA, cfg_train.data_path)
+    if os.path.isfile(os.path.join(_PATH_DATA, cfg_train.data_path)):
+        train_set = torch.load(os.path.join(_PATH_DATA, cfg_train.data_path))
+    elif os.getcwd().split("/")[-1] == "tests":  # in case of testing use dummy dataset
+        dummy_data = torch.randint(0, 255, [1, 28, 28])
+        dummy_label = torch.Tensor([4], dtype=torch.int64, device="cpu")
+        train_set = TensorDataset(dummy_data, dummy_label)
+    else:
+        raise FileNotFoundError(f"{os.path.join(_PATH_DATA, cfg_train.data_path)} does not exist")
     criterion = nn.NLLLoss()
     lr = cfg_train.lr
     optimizer = optim.Adam(model.parameters(), lr=lr)
