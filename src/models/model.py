@@ -42,6 +42,7 @@ class MyAwesomeModel(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         """Performs forward pass through model"""
+        y = x
         if x.shape[1] != 1:
             raise ValueError(f"Gray scale image with one channel expected: Got {x.shape[1]} channels!")
         x = self.cnn_layers(x)
