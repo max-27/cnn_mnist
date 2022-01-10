@@ -39,7 +39,7 @@ def train(config: DictConfig) -> None:
     wandb.config = config
     logger.info(f"Experiment setting: {config.experiment.items()[0][0]}")
     cfg_exp = config.experiment.items()[0][1]
-    cfg_model = cfg_exp.model
+    # cfg_model = cfg_exp.model
     cfg_train = cfg_exp.training
 
     # hyperparameter definition
