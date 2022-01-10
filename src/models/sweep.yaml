@@ -1,0 +1,31 @@
+program: train_model.py
+method: random
+name: test_run
+metric:
+  name: training_loss
+  goal: minimize
+
+# Please define the experiment setting e.g. exp1
+# Additionally update the prefixes of each parameter
+parameters:
+  experiment:
+    value: exp1
+  experiment.exp1.training.lr:
+    min: 0.001
+    max: 0.005
+  experiment.exp1.training.epochs:
+    values: [5, 7, 10]
+  experiment.exp1.training.batch_size:
+    values: [32, 64]
+  experiment.exp1.model.
+early_terminate:
+  type: hyperband
+  min_iter: 3
+  max_iter: 10
+
+# make Hydra compatible
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}
