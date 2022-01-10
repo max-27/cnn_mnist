@@ -1,4 +1,4 @@
-name = "Run mypy"
+name: "Run mypy"
 
 on:
   push:
