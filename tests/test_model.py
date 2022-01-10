@@ -28,3 +28,6 @@ def test_error_on_wrong_shape() -> None:
     with pytest.raises(ValueError, match=f"Gray scale image with one channel expected: Got {x.shape[1]} channels!"):
         model = MyAwesomeModel()
         model.forward(x)
+    with pytest.raises(ValueError, match=f"Gray scale image with one channel expected: Got {x.shape[1]} channels!"):
+        model = MyAwesomeModel()
+        model.forward(x)
