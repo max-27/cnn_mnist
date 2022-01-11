@@ -1,13 +1,6 @@
-import os
-from pathlib import Path
-
 import pytest
 import torch
-
 from src.models.model import MyAwesomeModel
-
-ROOT_PATH = Path(__name__).resolve().parents[1]
-DATA_PATH = os.path.join(ROOT_PATH, "data/processed")
 
 
 @pytest.mark.parametrize(
