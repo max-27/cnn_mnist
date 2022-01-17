@@ -1,9 +1,10 @@
 import logging
 import os
 from pathlib import Path
+import argparse
 
 import hydra
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
 import torch
 from omegaconf.dictconfig import DictConfig
@@ -11,11 +12,15 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 
 import wandb
-from src import _PATH_DATA
-from src.models.model import MyAwesomeModel
+# from src import _PATH_DATA
+from model import MyAwesomeModel
+from utils import get_wandb_api_key, upload_to_gs
 
 ROOT_PATH = Path(__file__).resolve().parents[2]
+_PATH_DATA = os.path.join(ROOT_PATH, "data")
 logger = logging.getLogger(__name__)
+os.environ["WANDB_API_KEY"] = get_wandb_api_key()
+os.environ["HYDRA_FULL_ERROR"] = "1"
 
 
 @hydra.main(config_path="config", config_name="default_config.yaml")
@@ -26,6 +31,7 @@ def train(config: DictConfig) -> None:
         :parameter:
         :returns:
     """
+
     wandb.init(
         project="test_project",
         entity="yeah_42",
@@ -44,6 +50,8 @@ def train(config: DictConfig) -> None:
     wandb.watch(model, log_freq=100)
     if os.path.isfile(os.path.join(_PATH_DATA, cfg_train.data_path)):
         train_set = torch.load(os.path.join(_PATH_DATA, cfg_train.data_path))
+    else:
+        raise FileNotFoundError(f"{os.path.join(_PATH_DATA, cfg_train.data_path)} not found!")
 
     criterion = nn.NLLLoss()
     lr = cfg_train.lr
@@ -81,18 +89,26 @@ def train(config: DictConfig) -> None:
             acc_epoch.append(np.sum(acc) / len(acc) * 100)
             loss_epoch.append(running_loss)
 
-    if os.getcwd().split("/")[-1] != "tests":  # don't save during tests
-        torch.save(model, f"{os.getcwd()}/trained_model.pt")
+    logger.info(f"Upload model to gs bucket:{config.bucket_name} in project:{config.project_name}")
+    torch.save(model, config.model_name)
+    upload_to_gs(config.bucket_name, config.model_name)
+    if config.save_to_gs:
+        logger.info(f"Upload model to gs bucket:{config.bucket_name} in project:{config.project_name}")
+        torch.save(model, config.model_name)
+        upload_to_gs(config.bucket_name, config.model_name)
+    elif os.getcwd().split("/")[-1] != "tests":  # don't save during tests
+        save_path = f"{os.getcwd()}/trained_model.pt"
+        torch.save(model, save_path)
 
-    # plt.figure(figsize=(15, 10))
-    # plt.subplot(121), plt.plot(acc_epoch), plt.xlabel("epochs"), plt.ylabel("accuracy")
-    # plt.subplot(122), plt.plot(loss_epoch), plt.xlabel("epochs"), plt.ylabel("loss")
-    # plot_path = os.path.join(ROOT_PATH, "reports/figures/")
-    # os.makedirs(plot_path, exist_ok=True)
-    # plt.savefig(
-    #     os.path.join(plot_path, f"{os.getcwd()}/learning_curves.png")
-    # )
-    # plt.show()
+    if os.getcwd().split("/")[-1] != "tests":
+        plt.figure(figsize=(15, 10))
+        plt.subplot(121), plt.plot(acc_epoch), plt.xlabel("epochs"), plt.ylabel("accuracy")
+        plt.subplot(122), plt.plot(loss_epoch), plt.xlabel("epochs"), plt.ylabel("loss")
+        plot_path = os.path.join(ROOT_PATH, "reports/figures/")
+        os.makedirs(plot_path, exist_ok=True)
+        plt.savefig(
+            os.path.join(plot_path, f"{os.getcwd()}/learning_curves.png")
+        )
     wandb.finish()
     logger.info("Finished training and saved model!")
 

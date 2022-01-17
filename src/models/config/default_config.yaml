@@ -3,6 +3,12 @@ defaults:
   - experiment: exp0
   - _self_
 
+# additional saving option for docker images
+save_to_gs: False
+model_name: "trained_model.pt"
+bucket_name: ""
+project_name: "velvety-calling-337909"
+
 hydra:
   run:
     dir: ../../models/runs/${now:%Y-%m-%d_%H-%M-%S}

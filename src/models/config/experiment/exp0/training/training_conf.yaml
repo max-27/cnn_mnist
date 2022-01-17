@@ -1,4 +1,4 @@
 data_path: "processed/train"
 lr: 0.001
 batch_size: 64
-epochs: 5
+epochs: 1
