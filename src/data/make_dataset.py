@@ -37,6 +37,7 @@ def main(input_filepath: Path, output_filepath: Path) -> None:
     test_labels = torch.as_tensor(test_label_list).flatten()
     test = data_utils.TensorDataset(test_images, test_labels)
 
+
     torch.save(train, os.path.join(output_filepath, "train"))
     torch.save(test, os.path.join(output_filepath, "test"))
 

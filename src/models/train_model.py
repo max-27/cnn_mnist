@@ -1,5 +1,6 @@
 import logging
 import os
+import pickle
 from pathlib import Path
 import argparse
 
@@ -90,15 +91,18 @@ def train(config: DictConfig) -> None:
             loss_epoch.append(running_loss)
 
     logger.info(f"Upload model to gs bucket:{config.bucket_name} in project:{config.project_name}")
-    torch.save(model, config.model_name)
-    upload_to_gs(config.bucket_name, config.model_name)
+    # torch.save(model.state_dict(), config.model_name)
+    torch.save(model.state_dict(), "deploy_model.pth")
+    with open("pickle.pth", "wb") as f:
+        pickle.dump(model.state_dict(), f)
+    #upload_to_gs(config.bucket_name, config.model_name)
     if config.save_to_gs:
         logger.info(f"Upload model to gs bucket:{config.bucket_name} in project:{config.project_name}")
-        torch.save(model, config.model_name)
+        #torch.save(model.state_dict(), config.model_name)
         upload_to_gs(config.bucket_name, config.model_name)
     elif os.getcwd().split("/")[-1] != "tests":  # don't save during tests
         save_path = f"{os.getcwd()}/trained_model.pt"
-        torch.save(model, save_path)
+        #torch.save(model.state_dict(), save_path)
 
     if os.getcwd().split("/")[-1] != "tests":
         plt.figure(figsize=(15, 10))
